@@ -37,6 +37,16 @@ const run = (command, args) => {
   }
 };
 
+// Bundle the optional Frida source graph, never this build host's native binding.
+// Consumers obtain their own platform binding through the unchanged install hook.
+if (
+  await pathExists(join(root, "node_modules/frida/build/frida_binding.node"))
+) {
+  throw new Error(
+    "Portable REA packaging requires source-only Frida dependencies; preserve the local native binding outside node_modules before packing, then restore it. Never ship the build host binding.",
+  );
+}
+
 if (await pathExists(join(root, "src"))) {
   const packageManagerPath = process.env.npm_execpath;
   if (packageManagerPath === undefined)
