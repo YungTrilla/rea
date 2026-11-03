@@ -334,7 +334,7 @@
     "@babel/types": "8.0.4",
     "@bufbuild/protobuf": "2.16.0",
     "@clack/prompts": "1.7.0",
-    "@electron/asar": "4.2.0",
+    "@electron/asar": "file:vendor/security/moe-electron-asar-4.3.1+moe.1.tgz",
     "@jridgewell/trace-mapping": "0.3.31",
     "@lydell/node-pty": "1.1.0",
     "@modelcontextprotocol/client": "2.3.1",
@@ -379,6 +379,17 @@
     },
     "vitepress": {
       "vite": "6.4.5"
+    },
+    "code-suggester": {
+      "glob": {
+        "minimatch": "$@moe/minimatch-compat"
+      }
+    },
+    "@stryker-mutator/core": {
+      "minimatch": "11.0.4"
+    },
+    "@google-automations/git-file-utils": {
+      "minimatch": "11.0.4"
     }
   },
   "devDependencies": {
@@ -407,12 +418,17 @@
     "typescript-termux": "npm:typescript@5.9.3",
     "typescript6": "npm:typescript@6.0.3",
     "vitepress": "1.6.4",
-    "vitest": "5.0.3"
+    "vitest": "5.0.3",
+    "@moe/minimatch-compat": "file:vendor/security/moe-minimatch-compat-11.0.4+moe.5.tgz"
   },
   "optionalDependencies": {
-    "frida": "17.23.2"
+    "frida": "file:vendor/security/moe-frida-17.23.2.tgz"
   },
   "allowScripts": {
     "frida@17.23.2": true
-  }
+  },
+  "bundledDependencies": [
+    "@electron/asar",
+    "frida"
+  ]
 }
