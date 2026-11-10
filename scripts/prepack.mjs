@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { access } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -44,6 +44,20 @@ if (
 ) {
   throw new Error(
     "Portable REA packaging requires source-only Frida dependencies; preserve the local native binding outside node_modules before packing, then restore it. Never ship the build host binding.",
+  );
+}
+
+// Frida is optional at install time, so npm may have dropped it from this
+// checkout. Refuse to pack then: the archive would ship without the bundled
+// Frida graph, and vendor/security is not published as a fallback.
+const fridaManifestPath = join(root, "node_modules/frida/package.json");
+const expectedFridaVersion = "17.23.2";
+const fridaVersion = (await pathExists(fridaManifestPath))
+  ? JSON.parse(await readFile(fridaManifestPath, "utf8")).version
+  : undefined;
+if (fridaVersion !== expectedFridaVersion) {
+  throw new Error(
+    `Portable REA packaging requires the bundled source-only Frida ${expectedFridaVersion} graph in node_modules/frida (found ${fridaVersion ?? "none"}). Reinstall dependencies with the pinned package manager before packing.`,
   );
 }
 

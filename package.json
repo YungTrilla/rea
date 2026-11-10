@@ -425,7 +425,7 @@
     "frida": "file:vendor/security/moe-frida-17.23.2.tgz"
   },
   "allowScripts": {
-    "frida@17.23.2": true
+    "file:vendor/security/moe-frida-17.23.2.tgz": true
   },
   "bundledDependencies": [
     "@electron/asar",
